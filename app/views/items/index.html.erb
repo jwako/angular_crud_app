@@ -3,10 +3,10 @@
     <h3>Listing items</h3>
 
     <div class="pull-right">
-      <button class="btn btn-default btn-lg" data-toggle="modal" data-target="#myItemContent">New item</button>
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myItemContent">New item</button>
     </div>
 
-    <table class="table">
+    <table class="table" ng-controller="ItemsCtrl">
       <thead>
         <tr>
           <th>Name</th>
@@ -17,23 +17,21 @@
       </thead>
 
       <tbody>
-        <% @items.each do |item| %>
-          <tr>
-            <td><%= item.name %></td>
-            <td><%= item.price %></td>
-            <td><%= item.description %></td>
-            <td><%= link_to 'Show', item %></td>
-            <td><%= link_to 'Edit', "" %></td>
-            <td><%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          </tr>
-        <% end %>
+        <tr ng-repeat="item in items">
+          <td>{{item.name}}</td>
+          <td>{{item.price}}</td>
+          <td>{{item.description}}</td>
+          <td><a href="/items/{{item.id}}" class="btn btn-info">Show</a></td>
+          <td><button class="btn btn-success" ng-click="OpenModal(item)">Edit</button></td>
+          <td><button ng-click="Delete(item);" class="btn btn-danger">Delete</button></td>
+        </tr>
       </tbody>
     </table>
   </div>
 </div>
 
 <div class="modal modal-flex fade" id="myItemContent" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" ng-controller="ItemCtrl">
+  <div class="modal-dialog" ng-controller="ItemNewCtrl">
     <div class="modal-content">
     <form name="item">
       <div class="modal-header">
@@ -51,7 +49,7 @@
           <label class="control-label" for="inputError2" ng-show="item.name.$error.required">*Required</label>
         </div>
         <div class="form-group" ng-class="{'has-error': item.description.$invalid}">
-          <textarea class="form-control" ng-model="description" name="description" placeholder="Description" rows="5" required autofocus></textarea>
+          <textarea class="form-control" ng-model="description" name="description" placeholder="Description" rows="5" required></textarea>
           <label class="control-label" for="inputError2" ng-show="item.description.$error.required">*Required</label>
         </div>
         <div class="form-group" ng-class="{'has-error': item.price.$invalid}">
@@ -72,3 +70,29 @@
     </div>
   </div>
 </div>
+
+<script type="text/ng-template" id="myModalContent.html">
+<div class="modal-header">
+  <h4 class="modal-title">Edit item</h4>
+</div>
+<div class="modal-body">
+  <div class="alert alert-danger" ng-show="errors">
+    <ul class="list-unstyled" ng-repeat="error in errors">
+      <li>{{error}}</li>
+    </ul>
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" ng-model="item.name" name="name" placeholder="Name" autofocus>
+  </div>
+  <div class="form-group">
+    <textarea class="form-control" ng-model="item.description" name="description" placeholder="Description" rows="5"></textarea>
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" ng-model="item.price" name="price">
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success btn-lg pull-right" ng-click='Update();'>Update</button>
+</div>
+</script>
+

@@ -1,19 +1,22 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-xs-12">
+	<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @item.name %>
-</p>
+	<p>
+	  <strong>Name:</strong>
+	  <%= @item.name %>
+	</p>
 
-<p>
-  <strong>Price:</strong>
-  <%= @item.price %>
-</p>
+	<p>
+	  <strong>Price:</strong>
+	  <%= @item.price %>
+	</p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @item.description %>
-</p>
+	<p>
+	  <strong>Description:</strong>
+	  <%= @item.description %>
+	</p>
 
-<%= link_to 'Edit', edit_item_path(@item) %> |
-<%= link_to 'Back', items_path %>
+	<%= link_to 'Back', items_path %>
+	</div>
+</div>
