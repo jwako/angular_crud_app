@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h3>Listing items</h3>
+
+    <div class="pull-right">
+      <button class="btn btn-default btn-lg" data-toggle="modal" data-target="#myItemContent">New item</button>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Description</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @items.each do |item| %>
+          <tr>
+            <td><%= item.name %></td>
+            <td><%= item.price %></td>
+            <td><%= item.description %></td>
+            <td><%= link_to 'Show', item %></td>
+            <td><%= link_to 'Edit', "" %></td>
+            <td><%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal modal-flex fade" id="myItemContent" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" ng-controller="ItemCtrl">
+    <div class="modal-content">
+    <form name="item">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">New item</h4>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger" ng-show="errors">
+          <ul class="list-unstyled" ng-repeat="error in errors">
+            <li>{{error}}</li>
+          </ul>
+        </div>
+        <div class="form-group" ng-class="{'has-error': item.name.$invalid}">
+          <input type="text" class="form-control" ng-model="name" name="name" placeholder="Name" required autofocus>
+          <label class="control-label" for="inputError2" ng-show="item.name.$error.required">*Required</label>
+        </div>
+        <div class="form-group" ng-class="{'has-error': item.description.$invalid}">
+          <textarea class="form-control" ng-model="description" name="description" placeholder="Description" rows="5" required autofocus></textarea>
+          <label class="control-label" for="inputError2" ng-show="item.description.$error.required">*Required</label>
+        </div>
+        <div class="form-group" ng-class="{'has-error': item.price.$invalid}">
+          <input type="text" class="form-control" ng-model="price" name="price" required ng-pattern="/^([1-9]\d*|0)(\.\d+)?$/">
+          <label class="control-label" for="inputError2" ng-show="item.price.$error.required">*Required</label>
+          <label class="control-label" for="inputError2" ng-show="item.price.$error.pattern">This is not a valid dollar.</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success btn-lg pull-right" ng-show="!item.$invalid" 
+          ng-click='Create();' ng-disabled="item.$invalid">Submit
+        </button>
+        <button class="btn btn-success btn-lg pull-right" ng-show="item.$invalid" ng-disabled="item.$invalid">
+          Submit
+        </button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
